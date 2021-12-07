@@ -11,11 +11,14 @@ jobs:
         uses: actions/checkout@v2
         with:
           ref: ${{ github.head_ref }}
+      
+      - name: Set Working directory
+        working-directory: ${{ github.workspace }}/tmp
 
       - name: Run PHP CS Fixer
-        uses: docker://oskarstark/php-cs-fixer-ga
+        uses: docker://oskarstark/php-cs-fixer-ga       
         with:
-          args: --config=.php_cs.dist.php --allow-risky=yes -w=${{ github.workspace }}/tmp
+          args: --config=.php_cs.dist.php --allow-risky=yes
 
       - name: Commit changes
         uses: stefanzweifel/git-auto-commit-action@v4
