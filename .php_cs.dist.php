@@ -2,7 +2,7 @@
 
 $finder = Symfony\Component\Finder\Finder::create()
     ->in([
-        __DIR__ . '/tmp/src',
+        'src',
         __DIR__ . '/tmp/tests',
     ])
     ->name('*.php')
