@@ -12,12 +12,11 @@ jobs:
         with:
           ref: ${{ github.head_ref }}
 
-      - name: Install
-        run: composer install
+      - name: Run PHP CS Fixer
+        uses: docker://oskarstark/php-cs-fixer-ga
+        with:
+          args: --config=.php_cs.dist.php --allow-risky=yes
 
-      - name: Run php-cs-fixer
-        run: ./vendor/bin/php-cs-fixer fix --config=.php_cs.dist.php --allow-risky=yes
-        
       - name: Commit changes
         uses: stefanzweifel/git-auto-commit-action@v4
         with:
