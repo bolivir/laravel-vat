@@ -1,9 +1,9 @@
 # EU VAT library for laravel
 
-[![Latest Version on Packagist](https://img.shields.io/packagist/v/bolivir/laravel-vat.svg?style=flat-square)](https://packagist.org/packages/bolivir/vat)
-[![GitHub Tests Action Status](https://img.shields.io/github/workflow/status/bolivir/laravel-vat/run-tests?label=tests)](https://github.com/bolivir/vat/actions?query=workflow%3Arun-tests+branch%3Amain)
-[![GitHub Code Style Action Status](https://img.shields.io/github/workflow/status/bolivir/laravel-vat/Check%20&%20fix%20styling?label=code%20style)](https://github.com/bolivir/vat/actions?query=workflow%3A"Check+%26+fix+styling"+branch%3Amain)
-[![Total Downloads](https://img.shields.io/packagist/dt/bolivir/laravel-vat.svg?style=flat-square)](https://packagist.org/packages/bolivir/vat)
+[![Latest Version on Packagist](https://img.shields.io/packagist/v/bolivir/laravel-vat.svg?style=flat-square)](https://packagist.org/packages/bolivir/laravel-vat)
+[![GitHub Tests Action Status](https://img.shields.io/github/workflow/status/bolivir/laravel-vat/run-tests?label=tests)](https://github.com/bolivir/laravel-vat/actions?query=workflow%3Arun-tests+branch%3Amain)
+[![GitHub Code Style Action Status](https://img.shields.io/github/workflow/status/bolivir/laravel-vat/Check%20&%20fix%20styling?label=code%20style)](https://github.com/bolivir/laravel-vat/actions?query=workflow%3A"Check+%26+fix+styling"+branch%3Amain)
+[![Total Downloads](https://img.shields.io/packagist/dt/bolivir/laravel-vat.svg?style=flat-square)](https://packagist.org/packages/bolivir/laravel-vat)
 
 Laravel VAT is a package to validate a VAT number for businesses based in Europe.
 
