@@ -2,8 +2,7 @@
 
 $finder = Symfony\Component\Finder\Finder::create()
     ->in([
-        'src',
-        __DIR__ . '/tmp/tests',
+        __DIR__
     ])
     ->name('*.php')
     ->notName('*.blade.php')
