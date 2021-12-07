@@ -2,9 +2,9 @@
 
 namespace Bolivir\VAT\Tests;
 
+use Bolivir\VAT\VATServiceProvider;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Orchestra\Testbench\TestCase as Orchestra;
-use Bolivir\VAT\VATServiceProvider;
 
 class TestCase extends Orchestra
 {
