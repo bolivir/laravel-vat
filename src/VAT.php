@@ -3,6 +3,7 @@
 namespace Bolivir\VAT;
 
 use Bolivir\VAT\Contracts\IClient;
+use Bolivir\VAT\Exceptions\VATException;
 use Bolivir\VAT\VIES\VIES;
 
 class VAT
@@ -13,7 +14,7 @@ class VAT
      * @var array<string, string>
      * @link http://ec.europa.eu/taxation_customs/vies/faq.html?locale=en#item_11
      */
-    private $patternExpressions = [
+    private $patterns = [
         'AT' => 'U[A-Z\d]{8}',
         'BE' => '(0\d{9}|\d{10})',
         'BG' => '\d{9,10}',
@@ -23,13 +24,13 @@ class VAT
         'DK' => '(\d{2} ?){3}\d{2}',
         'EE' => '\d{9}',
         'EL' => '\d{9}',
-        'ES' => '[A-Z]\d{7}[A-Z]|\d{8}[A-Z]|[A-Z]\d{8}',
+        'ES' => '([A-Z]\d{7}[A-Z]|\d{8}[A-Z]|[A-Z]\d{8})',
         'FI' => '\d{8}',
-        'FR' => '([A-Z]{2}|\d{2})\d{9}',
-        'GB' => '\d{9}|\d{12}|(GD|HA)\d{3}',
+        'FR' => '[A-Z\d]{2}\d{9}',
+        'GB' => '(\d{9}|\d{12}|(GD|HA)\d{3})',
         'HR' => '\d{11}',
         'HU' => '\d{8}',
-        'IE' => '[A-Z\d]{8}|[A-Z\d]{9}',
+        'IE' => '([A-Z\d]{8}|[A-Z\d]{9})',
         'IT' => '\d{11}',
         'LT' => '(\d{9}|\d{12})',
         'LU' => '\d{8}',
@@ -41,18 +42,13 @@ class VAT
         'RO' => '\d{2,10}',
         'SE' => '\d{12}',
         'SI' => '\d{8}',
-        'SK' => '\d{10}',
+        'SK' => '\d{10}'
     ];
-
     private IClient $client;
 
     public function __construct(IClient $client = null)
     {
-        if (! $client) {
-            $this->client = new VIES();
-        } else {
-            $this->client = $client;
-        }
+        $this->client = $client ?: new VIES();
     }
 
     /**
@@ -60,9 +56,26 @@ class VAT
      * @param string $vatNumber the full VAT number (incl. country).
      * @return bool
      */
-    public function validate(string $vatNumber)
+    public function validate(string $vatNumber): bool
     {
         return $this->validateFormat($vatNumber) && $this->validateExistence($vatNumber);
+    }
+
+    /**
+     * Validates the existence of the given VAT number via external service
+     * @param string $vatNumber the full VAT number (incl. country).
+     * @return bool
+     */
+    public function validateExistence(string $vatNumber): bool
+    {
+        list($country, $number) = $this->splitVATString($vatNumber);
+        $number = $this->formatVATString($number);
+
+        try {
+            return $this->client->checkVAT($country, $number);
+        } catch (VATException $e) {
+            return false;
+        }
     }
 
     /**
@@ -72,14 +85,18 @@ class VAT
      */
     public function validateFormat(string $vatNumber): bool
     {
-        $vatNumber = $this->formatVATString($vatNumber);
-        list($country, $number) = $this->splitVATString($vatNumber);
-
-        if (! isset($this->patternExpressions[$country])) {
+        if ($vatNumber === '') {
             return false;
         }
 
-        return preg_match('/^' . $this->patternExpressions[$country] . '$/', $number) > 0;
+        list($country, $number) = $this->splitVATString($vatNumber);
+        $number = $this->formatVATString($number);
+
+        if (! isset($this->patterns[$country])) {
+            return false;
+        }
+
+        return preg_match('/^' . $this->patterns[$country] . '$/', $number) > 0;
     }
 
     /**
@@ -96,7 +113,7 @@ class VAT
     /**
      * Get the vat number splitted as country and number
      * @param string $vatNumber
-     * @return array<string,string>
+     * @return array<string>
      */
     private function splitVATString(string $vatNumber): array
     {

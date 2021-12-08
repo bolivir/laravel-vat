@@ -4,5 +4,5 @@ namespace Bolivir\VAT\Contracts;
 
 interface IClient
 {
-    public function validate(string $vatNumber): bool;
+    public function checkVAT(string $countryCode, string $vatNumber): bool;
 }
