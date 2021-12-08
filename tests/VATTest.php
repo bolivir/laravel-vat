@@ -33,7 +33,7 @@ it('can validate the formats correctly', function () {
         'NL123456789B12',
         'PL1234567890',
         'PT123456789',
-        'RO123456789'
+        'RO123456789',
     ];
 
     $invalid = [
@@ -46,7 +46,7 @@ it('can validate the formats correctly', function () {
         'CZ1234567',
         'DE12345678',
         'PREFIX_NL12345678B12',
-        'NL12345678B12_SUFFIX'
+        'NL12345678B12_SUFFIX',
     ];
 
     foreach ($valid as $format) {
@@ -58,10 +58,10 @@ it('can validate the formats correctly', function () {
     }
 });
 
-it('can validate the existence', function() {
+it('can validate the existence', function () {
     expect(VAT::validateExistence('BE0123456789'))->toBeFalse();
 });
 
-it('can check the format and existence', function() {
+it('can check the format and existence', function () {
     expect(VAT::validate('BE0123456789'))->toBeFalse();
 });

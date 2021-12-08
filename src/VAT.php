@@ -42,7 +42,7 @@ class VAT
         'RO' => '\d{2,10}',
         'SE' => '\d{12}',
         'SI' => '\d{8}',
-        'SK' => '\d{10}'
+        'SK' => '\d{10}',
     ];
     private IClient $client;
 

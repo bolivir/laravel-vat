@@ -12,7 +12,7 @@ class VIES implements IClient
     /**
      * @const string
      */
-    const URL = 'https://ec.europa.eu/taxation_customs/vies/checkVatService.wsdl';
+    public const URL = 'https://ec.europa.eu/taxation_customs/vies/checkVatService.wsdl';
 
     private ?SoapClient $client = null;
 
@@ -33,10 +33,10 @@ class VIES implements IClient
     {
         try {
             $response = $this->getClient()->checkVat(
-                array(
+                [
                     'countryCode' => $countryCode,
-                    'vatNumber' => $vatNumber
-                )
+                    'vatNumber' => $vatNumber,
+                ]
             );
         } catch (SoapFault $e) {
             throw new VATException($e->getMessage(), $e->getCode());
@@ -45,7 +45,7 @@ class VIES implements IClient
         return (bool) $response->valid;
     }
 
-    protected function getClient() : SoapClient
+    protected function getClient(): SoapClient
     {
         if ($this->client === null) {
             $this->client = new SoapClient(self::URL, ['connection_timeout' => $this->timeout]);
